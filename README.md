@@ -39,7 +39,7 @@ DB_PORT=<your_db_port>
     * Create the analytics table
     * Export the tables as csv file to the data lake on aws
     * `Best practice, use .ipynb file to do this step by step. It helps in error troubleshooting`
-1. Run `create_tables.py` every time before running etl.py to clean and create daabase
+1. Run `create_tables.py` every time before running etl.py to clean and create database
 1. Run `etl.py` to start ETL pipeline
 
 # Create Table and SQL queries
