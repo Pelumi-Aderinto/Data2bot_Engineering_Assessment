@@ -13,7 +13,7 @@ peluader_analytics Schema: From the name, this schema contains all the derived a
 # Project Structure
 The project contains five files:
 1. `test.ipynb` As the name implies, it is a test notebook where all my rough work and unit testing were done.
-1. `create_tables.py` drops and creates all tables in postgres DB (i.e, the Staging table and the Analytics table). I run this file to reset my tables before each time I run my ETL scripts.
+1. `create_tables.py` drops and creates all tables in postgres DB (i.e, the Staging table and the Analytics table). I run this file to reset my tables each time before I run my ETL scripts.
 1. `etl.py` defines the ETL pipeline that downloads/extracts data from S3 bucket, loads it into the respective tables in the staging schema on postgres, transfroms into the analytics table and uploads the analytics table to s3 bucket.
 1. `sql_queries.py` defines SQL queries that creates the tables and ETL pipeline
 1. `dwh.cfg` This essentially holds my credentials
