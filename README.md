@@ -36,11 +36,11 @@ DB_PORT=<your_db_port>
     * start with the staging tabele creation
     * Download the files from s3 bucket to your local directory
     * Be sure the downloaded data in step 2 above is loaded/copied to the staging table from local dir without error
-    * Create the analytics table
-    * Export the tables as csv file to the data lake on aws
+    * Create the analytics table and write sql commands to populate these analytics tables with necessary information.
+    * Export the analytics tables as csv file to the data lake on aws
     * `Best practice, use .ipynb file to do this step by step. It helps in error troubleshooting`
 1. Run `create_tables.py` every time before running etl.py to clean and create database
-1. Run `etl.py` to start ETL pipeline
+1. Run `etl.py` to start ETL pipeline process
 
 # Create Table and SQL queries
 The major focus of this project is on the `sql_queries.py`, this is where all tables are created and where the ETL pipeline processes are written. To start, I created and connected to Postgres DB. After connection, I downloaded data from the S3 bucket and copied them to the staging tables on Postgres. 
