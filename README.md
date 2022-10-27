@@ -109,6 +109,6 @@ INSERT INTO peluader5437_analytics.agg_shipments (
 
 NOTE
 
-1. The columns in agg_public_holiday were all pre-defined in the assessment to be NOT NULL. However, this is not true as some of the columns CAN and WILL be NULL due to the fact the months contains no public holidays in the last years and hence no orders were made ON A PUBLIC HOLIDAY. More specifically, Months of May, June, Sept. and Dec had no orders placed on a public holiday in the last years hence they are NULL. I included these changes by removing the NOT NULL constraint.
+1. The columns in agg_public_holiday were all pre-defined in the assessment to be NOT NULL. However, this is not true as some of the columns CAN and WILL be NULL due to the fact that the months contains no public holidays in the last years and hence no orders were made ON A PUBLIC HOLIDAY. More specifically, Months of May, June, Sept. and Dec had no orders placed on a public holiday in the last years hence they are NULL. I included these changes by removing the NOT NULL constraint.
 2. The name of the csv is 'shipment_deliveries.csv' in contrast to what was wriiten in the assessment as 'shipments_deliveries.csv'. I had problem downloading the right file in time.
 
