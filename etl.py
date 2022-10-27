@@ -64,8 +64,7 @@ def insert_tables(cur, conn):
         cur: This holds the data retrieved from database
         conn: This holds the connection made to the database
     Function:
-        To extract info from the staging table, transform and load it in the
-        dimensions and fact table that makes up the DWH
+        To load the downloaded csv files to the tables in the staging schema
     """
     try:
         i = 0
@@ -124,10 +123,10 @@ def upload_to_s3(bucket, file_name, object_name=None):
 
 def main():
     """
-        This makes connection to redshift cluster using already defined parameters,
-        - calls the function to load data from AWS S3 bucket into the staging table and
-        - calls the function that extract data from staging table and load it into Fact
-          and dimensions table 
+        This makes connection to postgres DB using already defined parameters,
+        - calls the function to load data into the staging table and
+        - calls the function that extract data from facts and dimensions tables and load it into the analytics table
+        - calls the function that export the analytics tables to csv file and uploads to AWS S3
     """
 
     conn = psycopg2.connect("host={} dbname={} user={} password={} port={}"
@@ -136,7 +135,6 @@ def main():
 
     cur = conn.cursor()
 
-    #upload data to db  
     copy_to_db(cur, conn, tbl_name1,  file=f"{data_download_path}/reviews.csv")
     copy_to_db(cur, conn, tbl_name2,  file=f"{data_download_path}/shipment_deliveries.csv")
     copy_to_db(cur, conn, tbl_name3,  file=f"{data_download_path}/orders.csv")
