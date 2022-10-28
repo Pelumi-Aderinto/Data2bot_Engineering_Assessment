@@ -23,7 +23,6 @@ tbl_name4 = 'peluader5437_analytics.agg_public_holiday'
 tbl_name5 = 'peluader5437_analytics.agg_shipments'
 tbl_name6 = 'peluader5437_analytics.best_performing_product'
 prefix = 'analytics_export/peluader5437'
-filenames = [f"{data_download_path}/agg_public_holiday.csv", f"{data_download_path}/agg_shipments.csv", f"{data_download_path}/best_performing_product.csv"]
 
 if not os.path.exists(data_download_path):
     os.makedirs(data_download_path)
@@ -97,7 +96,7 @@ def export_to_csv(cur, conn, tbl_name, filename):
     print('table {0} exported to csv completed'.format(tbl_name))
     return
 
-def upload_to_s3(bucket, file_name, object_name=None):
+def upload_to_s3(bucket, filename, object_name=None):
     """Upload a file to an S3 bucket
 
     :param file_name: File to upload
@@ -105,20 +104,19 @@ def upload_to_s3(bucket, file_name, object_name=None):
     :param object_name: S3 object name. If not specified then file_name is used
     :return: True if file was uploaded, else False
     """
-    for filename in file_name:
-        # If S3 object_name was not specified, use file_name
-        if object_name is None:
-            object_name = os.path.basename(filename)
-            object_name = f"{prefix}/{object_name}"
+    # If S3 object_name was not specified, use file_name
+    if object_name is None:
+        object_name = os.path.basename(filename)
+        object_name = f"{prefix}/{object_name}"
 
-        # Upload the file
-        s3_client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
-        try:
-            response = s3_client.upload_file(filename, bucket, object_name)
-            print('file {0} uploaded to s3 completed'.format(object_name))
-        except ClientError as e:
-            logging.error(e)
-            return False
+    # Upload the file
+    s3_client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
+    try:
+        response = s3_client.upload_file(filename, bucket, object_name)
+        print('file {0} uploaded to s3 completed'.format(object_name))
+    except ClientError as e:
+        logging.error(e)
+        return False
     return True
 
 def main():
@@ -142,7 +140,9 @@ def main():
     export_to_csv(cur, conn, tbl_name4, filename=f"{data_download_path}/agg_public_holiday.csv")
     export_to_csv(cur, conn, tbl_name5, filename=f"{data_download_path}/agg_shipments.csv")
     export_to_csv(cur, conn, tbl_name6, filename=f"{data_download_path}/best_performing_product.csv")
-    upload_to_s3(bucket_name, file_name=filenames)
+    upload_to_s3(bucket_name, filename=f"{data_download_path}/agg_public_holiday.csv")
+    upload_to_s3(bucket_name, filename=f"{data_download_path}/agg_shipments.csv")
+    upload_to_s3(bucket_name, filename=f"{data_download_path}/best_performing_product.csv")
 
 
     conn.close()
