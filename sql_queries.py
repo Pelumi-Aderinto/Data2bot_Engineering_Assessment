@@ -224,8 +224,9 @@ best_performing_product_table_insert = '''INSERT INTO peluader5437_analytics.bes
             AND t1.delivery_date IS NOT NULL AND product_name = (SELECT product_name FROM peluader5437_staging.reviews sr JOIN if_common.dim_products dp 
             ON sr.product_id = dp.product_id GROUP BY product_name ORDER BY SUM(review) DESC fetch first 1 rows with ties))/(SELECT
             COUNT(*) FROM (SELECT *  FROM peluader5437_staging.orders so 
-            JOIN peluader5437_staging.shipments_deliveries sd ON so.order_id = sd.order_id) t1 WHERE DATE_PART('day', t1.shipment_date::timestamp - t1.order_date::timestamp) < 6 
-            AND t1.delivery_date IS NOT NULL)::float * 100) AS pct_early_shipments,
+            JOIN peluader5437_staging.shipments_deliveries sd ON so.order_id = sd.order_id) t1 JOIN if_common.dim_products idp
+            ON t1.product_id::INT = idp.product_id WHERE product_name = (SELECT product_name FROM peluader5437_staging.reviews sr JOIN if_common.dim_products dp 
+            ON sr.product_id = dp.product_id GROUP BY product_name ORDER BY SUM(review) DESC fetch first 1 rows with ties))::float * 100) AS pct_early_shipments,
 
 
             (SELECT (SELECT
@@ -235,8 +236,9 @@ best_performing_product_table_insert = '''INSERT INTO peluader5437_analytics.bes
             AND t1.delivery_date IS NULL AND product_name = (SELECT product_name FROM peluader5437_staging.reviews sr JOIN if_common.dim_products dp 
             ON sr.product_id = dp.product_id GROUP BY product_name ORDER BY SUM(review) DESC fetch first 1 rows with ties))/(SELECT
             COUNT(*) FROM (SELECT *  FROM peluader5437_staging.orders so 
-            JOIN peluader5437_staging.shipments_deliveries sd ON so.order_id = sd.order_id) t1 WHERE DATE_PART('day', t1.shipment_date::timestamp - t1.order_date::timestamp) >= 6 
-            AND t1.delivery_date IS NULL)::float * 100) AS pct_late_shipments
+            JOIN peluader5437_staging.shipments_deliveries sd ON so.order_id = sd.order_id) t1 JOIN if_common.dim_products idp
+            ON t1.product_id::INT = idp.product_id WHERE product_name = (SELECT product_name FROM peluader5437_staging.reviews sr JOIN if_common.dim_products dp 
+            ON sr.product_id = dp.product_id GROUP BY product_name ORDER BY SUM(review) DESC fetch first 1 rows with ties))::float * 100) AS pct_late_shipments
             
             '''
 
