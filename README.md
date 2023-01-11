@@ -1,5 +1,4 @@
 # Implementing Data Warehouse on AWS
-# DATA2BOTS DATA ENGINEERING ASSESSMENT
 # Project Overview
 This project is about a certain company, `ABC Inc.` that wants to extract certain information from the existing data they have. These information they are interested in is to be extracted as tables to an analytics schema in a relational DB first and then exported as a csv file to a certain cloud storage(AWS S3).
 
